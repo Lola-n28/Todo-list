@@ -1,6 +1,5 @@
 from django.shortcuts import render, HttpResponse,redirect
-from .models import ToDo
-from .models import Books
+from .models import ToDo, Books
 
 # Create your views here.
 def homepage(request):
@@ -11,8 +10,8 @@ def test(request):
     return render(request, "test.html",{"todo_list":todo_list})
 
 def books(request):
-    books_list=Books.objects.all()
-    return render(request, "books.html",{"books_list":books_list})
+    books=Books.objects.all()
+    return render(request, "books.html",{"books":books})
 
 def second(request):
     return HttpResponse("test 2 page")
@@ -35,3 +34,17 @@ def add_todo(request):
     todo=ToDo(text=text)
     todo.save()
     return redirect(test)
+
+def add_book(request):
+    form=request.POST
+    book=Books(
+        title=form["title"],
+        subtitle=form["subtitle"],
+        description=form["description"],
+        price=form["price"],
+        genre=form["genre"],
+        author=form["author"],
+        year=form["year"][:10]
+        )
+    book.save()
+    return redirect(books)

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,24 +13,58 @@
         table {
           width: 80%;
         }
+        .create_input{
+            padding:12px 5px;
+            font-size: 18px;
+            width: 80%;
+            margin-bottom: 20px;
+        }
+        .create_button{
+            padding:12px 20px;
+            background-color: #5e68a3;
+            border:1px solid #5e68a3;
+            color:white;
+            font-size:14px;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+        }
         </style>
 </head>
 <body>
-    <table>
-    <tr>
-      <th>Title</th>
-      <th>Price</th>
-      <th>Date</th>
-    </tr>
-    {%for books in books_list%}
-        <tr>
-            <td>{{books.title}}</td>
-            <td>{{books.price}}</td>
-            <td>{{books.date}}</td>      
-        </tr>
-    {%endfor%}
-    </table>
+    <section>
+        <div class="create_container">
+            <form action="{% url 'add-book' %}" method="POST">
+                {%csrf_token%}
+            <input class="create_input" type="text" placeholder="Напишите заголовок" name="title"/>
+            <input class="create_input" type="text" placeholder="Напишите подзаголовок" name="subtitle"/>
+            <input class="create_input" type="text" placeholder="Напишите описание" name="description"/>
+            <input class="create_input" type="number"placeholder="Напишите цену" name="price"/>
+            <input class="create_input" type="text" placeholder="Напишите жанр" name="genre"/>
+            <input class="create_input" type="text" placeholder="Напишите автора" name="author"/>
+            <input class="create_input" type="datetime-local"placeholder="Напишите год" name="year"/><br>
 
-    
+            <button class="create_button">Добавить</button>
+            </form>
+        </div>
+
+        <table>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>жанр</th>
+            </tr>
+            {%for book in book%}
+                <tr>
+                    <td>{{book.title}}</td>
+                    <td>{{book.author}}</td>
+                    <td>{{book.subtitle}}</td>      
+                </tr>
+            {%endfor%}
+            </table>
+
+    </section>
+
 </body>
 </html>
